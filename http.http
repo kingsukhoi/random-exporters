@@ -1,0 +1,4 @@
+#Speedtest
+GET http://localhost:8080/v1/prom/speedtest?servers=4392
+### processes
+GET http://localhost:8080/v1/prom/processes
