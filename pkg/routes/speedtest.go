@@ -73,5 +73,5 @@ func SpeedTestHandler(c *gin.Context) {
 
 	}
 
-	c.Data(http.StatusOK, "text/plain", []byte(sb.String()))
+	c.Data(http.StatusOK, "application/openmetrics-text; version=1.0.0; charset=utf-8", []byte(sb.String()))
 }

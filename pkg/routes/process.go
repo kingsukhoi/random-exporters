@@ -9,8 +9,6 @@ import (
 )
 
 func ProcessHandler(c *gin.Context) {
-	c.Writer.Header().Set("Content-type", "text/plain")
-
 	rtnMe := strings.Builder{}
 
 	processes, err := process.Processes()
@@ -18,6 +16,16 @@ func ProcessHandler(c *gin.Context) {
 	if err != nil {
 		return
 	}
+
+	openMetricsMetadata := `# TYPE process_cpu_percent Gauge
+# HELP process_cpu_percent CPU percentage of a process.
+
+# TYPE process_memory_rss_bytes Gauge
+# UNIT process_memory_rss_bytes bytes
+# HELP process_memory_rss_bytes total bytes a process is consuming, not including swap
+
+`
+	rtnMe.WriteString(openMetricsMetadata)
 
 	for _, p := range processes {
 		cmd, _ := p.CmdlineWithContext(c.Request.Context())
@@ -29,14 +37,14 @@ func ProcessHandler(c *gin.Context) {
 		name, _ := p.NameWithContext(c.Request.Context())
 		cpuPercent, _ := p.CPUPercentWithContext(c.Request.Context())
 		mem, _ := p.MemoryInfoWithContext(c.Request.Context())
-		memUsed := mem.RSS
+		memRss := mem.RSS
 		//mem, _ := p.MemoryInfoWithContext(c.Request.Context())
 
 		rtnMe.WriteString(fmt.Sprintf(`process_cpu_percent{name="%s",cmdLine="%s",pid="%d",ppid="%d"} %f`+"\n", name, cmd, pid, ppid, cpuPercent/100))
-		rtnMe.WriteString(fmt.Sprintf(`process_memory_bytes{name="%s",cmdLine="%s", pid="%d",ppid="%d"} %d`+"\n", name, cmd, pid, ppid, memUsed))
+		rtnMe.WriteString(fmt.Sprintf(`process_memory_rss_bytes{name="%s",cmdLine="%s", pid="%d",ppid="%d"} %d`+"\n", name, cmd, pid, ppid, memRss))
 
 	}
 
-	c.Data(http.StatusOK, "text/plain", []byte(rtnMe.String()))
+	c.Data(http.StatusOK, "application/openmetrics-text; version=1.0.0; charset=utf-8", []byte(rtnMe.String()))
 
 }
