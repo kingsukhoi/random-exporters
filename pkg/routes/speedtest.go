@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/showwin/speedtest-go/speedtest"
 	"net/http"
@@ -20,6 +21,11 @@ func SpeedTestHandler(c *gin.Context) {
 	serversString, _ := c.GetQuery("servers")
 
 	servers := strings.Split(serversString, ",")
+
+	if servers[0] == "" {
+		_ = c.AbortWithError(http.StatusBadRequest, errors.New("servers query is required"))
+		return
+	}
 
 	sb := strings.Builder{}
 
