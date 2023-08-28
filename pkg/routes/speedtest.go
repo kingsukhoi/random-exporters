@@ -10,14 +10,14 @@ import (
 	"strings"
 )
 
-var speedtestClient = speedtest.New()
-
 func GetSpeedTestServersHandler(c *gin.Context) {
+	var speedtestClient = speedtest.New()
 	servers, _ := speedtestClient.FetchServers()
 	c.JSON(http.StatusOK, servers)
 }
 
 func SpeedTestHandler(c *gin.Context) {
+	var speedtestClient = speedtest.New()
 	serversString, _ := c.GetQuery("servers")
 
 	servers := strings.Split(serversString, ",")
