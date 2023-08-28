@@ -30,19 +30,27 @@ func SpeedTestHandler(c *gin.Context) {
 	sb := strings.Builder{}
 
 	for _, s := range servers {
-		server, _ := speedtestClient.FetchServerByID(s)
+		server, err := speedtestClient.FetchServerByID(s)
 
-		err := server.PingTestContext(c.Request.Context(), nil)
+		if err != nil {
+			_ = c.AbortWithError(http.StatusBadRequest, err)
+			return
+		}
+
+		err = server.PingTestContext(c.Request.Context(), nil)
 		if err != nil {
 			_ = c.AbortWithError(http.StatusInternalServerError, err)
+			return
 		}
 		err = server.DownloadTestContext(c.Request.Context())
 		if err != nil {
 			_ = c.AbortWithError(http.StatusInternalServerError, err)
+			return
 		}
 		err = server.UploadTestContext(c.Request.Context())
 		if err != nil {
 			_ = c.AbortWithError(http.StatusInternalServerError, err)
+			return
 		}
 
 		upload := OpenMetrics.Metric{
