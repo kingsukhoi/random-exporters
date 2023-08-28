@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-contrib/pprof"
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -18,7 +19,7 @@ func main() {
 	r.Use(ginzap.RecoveryWithZap(logger, true))
 
 	middleware.GenerateRouter(r)
-
+	pprof.Register(r)
 	err := r.Run()
 	if err != nil {
 		log.Fatal(err)

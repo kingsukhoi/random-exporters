@@ -3,6 +3,7 @@ module random-exporters
 go 1.20
 
 require (
+	github.com/gin-contrib/pprof v1.4.0
 	github.com/gin-contrib/zap v0.1.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/shirou/gopsutil/v3 v3.23.7
