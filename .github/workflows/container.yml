@@ -31,5 +31,5 @@ jobs:
           sudo apt-get update && \
           sudo apt-get install pack-cli
       - run: |
-          pack build ghcr.io/kingsukhoi/random-exporter -B paketobuildpacks/builder-jammy-tiny --env BP_GO_TARGETS="cmd/web"
+          pack build --publish ghcr.io/kingsukhoi/random-exporter:${{ github.sha }} -B paketobuildpacks/builder-jammy-tiny --env BP_GO_TARGETS="cmd/web"
     
