@@ -30,6 +30,10 @@ jobs:
           sudo add-apt-repository ppa:cncf-buildpacks/pack-cli && \
           sudo apt-get update && \
           sudo apt-get install pack-cli
-      - run: |
-          pack build --publish ghcr.io/kingsukhoi/random-exporters:${{ github.sha }} -B paketobuildpacks/builder-jammy-tiny --env BP_GO_TARGETS="cmd/web"
+      - name: Get Short SHA
+        id: shortsha
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Build Container
+        run: |
+          pack build --publish ghcr.io/kingsukhoi/random-exporters:${{ github.sha }} -t ghcr.io/kingsukhoi/random-exporters:latest -t ghcr.io/kingsukhoi/random-exporters:${{ steps.shortsha.outputs.sha_short }} -B paketobuildpacks/builder-jammy-tiny --env BP_GO_TARGETS="cmd/web" --env BP_GIN_MODE="release"
     
