@@ -32,4 +32,9 @@ jobs:
       - name: Build Container
         run: |
           pack build --publish ghcr.io/kingsukhoi/random-exporters:${{ github.sha }} -t ghcr.io/kingsukhoi/random-exporters:latest -t ghcr.io/kingsukhoi/random-exporters:${{ steps.shortsha.outputs.sha_short }} -B paketobuildpacks/builder-jammy-tiny --env BP_GO_TARGETS="cmd/web" --env BP_GIN_MODE="release"
+      - name: Dump github context
+        run:   echo "$GITHUB_CONTEXT"
+        shell: bash
+        env:
+         GITHUB_CONTEXT: ${{ toJson(github) }}
     
