@@ -19,7 +19,7 @@ func Test(t *testing.T) {
 	}{
 		{
 			name:         "List processes",
-			path:         "/v1/prom/processes",
+			path:         "/v1/openmetrics/processes",
 			method:       "GET",
 			expectedCode: http.StatusOK,
 		},
