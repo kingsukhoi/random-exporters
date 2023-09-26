@@ -27,6 +27,7 @@ func ProcessHandler(c *gin.Context) {
 	processes, err := process.Processes()
 
 	if err != nil {
+		_ = c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 
@@ -58,12 +59,14 @@ func ProcessHandler(c *gin.Context) {
 		if cmd == "" {
 			cmd, _ = p.ExeWithContext(c.Request.Context())
 		}
+		cmd = strings.ReplaceAll(cmd, "\"", "\\\"")
 		pid := p.Pid
 		ppid, _ := p.PpidWithContext(c.Request.Context())
 		name, _ := p.NameWithContext(c.Request.Context())
+		name = strings.ReplaceAll(name, "\"", "\\\"")
 		cpuPercent, _ := p.CPUPercentWithContext(c.Request.Context())
 
-		rtnMe.WriteString(fmt.Sprintf(`process_cpu_percent{name="%s",cmdLine="%s",pid="%d",ppid="%d"} %f`+"\n", name, cmd, pid, ppid, cpuPercent/100))
+		rtnMe.WriteString(fmt.Sprintf(`process_cpu_percent{name="%s",cmdLine="%s",pid="%d",ppid="%d"} %f`+"\n", name, cmd, pid, ppid, cpuPercent))
 
 		if i == topNProcesses-1 {
 			break
@@ -95,6 +98,8 @@ func ProcessHandler(c *gin.Context) {
 		mem, _ := p.MemoryInfoWithContext(c.Request.Context())
 		memRss := mem.RSS
 		//mem, _ := p.MemoryInfoWithContext(c.Request.Context())
+		cmd = strings.ReplaceAll(cmd, "\"", "\\\"")
+		name = strings.ReplaceAll(name, "\"", "\\\"")
 
 		rtnMe.WriteString(fmt.Sprintf(`process_memory_rss_bytes{name="%s",cmdLine="%s", pid="%d",ppid="%d"} %d`+"\n", name, cmd, pid, ppid, memRss))
 
