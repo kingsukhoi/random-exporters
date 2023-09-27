@@ -56,7 +56,7 @@ func TestTopNProcesses(t *testing.T) {
 	}{
 		{
 			name:               "List processes",
-			path:               "/v1/prom/processes?top=20",
+			path:               "/v1/openmetrics/processes?top=20",
 			method:             "GET",
 			expectedCode:       http.StatusOK,
 			expectedNumResults: 20,

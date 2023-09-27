@@ -11,15 +11,15 @@ import (
 )
 
 func ProcessHandler(c *gin.Context) {
+	var err error
 	topNProcessesString := c.DefaultQuery("top", "all")
 	var topNProcesses = -1
 	if strings.ToLower(topNProcessesString) != "all" {
-		i, err := strconv.ParseInt(topNProcessesString, 10, 64)
+		topNProcesses, err = strconv.Atoi(topNProcessesString)
 		if err != nil {
 			_ = c.AbortWithError(http.StatusBadRequest, err)
 			return
 		}
-		topNProcesses = int(i)
 	}
 
 	rtnMe := strings.Builder{}
