@@ -40,7 +40,7 @@ func (m MetricTypes) String() string {
 func (m Metric) String() string {
 	labels := ""
 	for k, v := range m.Labels {
-		labels += fmt.Sprintf(`%s="%s"`, k, v)
+		labels += fmt.Sprintf(`%s="%s",`, k, v)
 	}
 
 	sb := strings.Builder{}
@@ -53,5 +53,5 @@ func (m Metric) String() string {
 		sb.WriteString(fmt.Sprintf("%s %s", m.Name, m.Value))
 	}
 
-	return sb.String()
+	return sb.String() + "\n"
 }
