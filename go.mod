@@ -7,7 +7,7 @@ require (
 	github.com/gin-contrib/zap v0.2.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/shirou/gopsutil/v3 v3.23.10
-	github.com/showwin/speedtest-go v1.6.7
+	github.com/showwin/speedtest-go v1.6.8
 	go.uber.org/zap v1.26.0
 )
 
