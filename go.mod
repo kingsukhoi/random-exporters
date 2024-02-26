@@ -8,7 +8,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/shirou/gopsutil/v3 v3.24.1
 	github.com/showwin/speedtest-go v1.6.10
-	go.uber.org/zap v1.26.0
+	go.uber.org/zap v1.27.0
 )
 
 require (
