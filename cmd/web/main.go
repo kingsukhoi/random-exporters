@@ -2,22 +2,20 @@ package main
 
 import (
 	"github.com/gin-contrib/pprof"
-	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
+	sloggin "github.com/samber/slog-gin"
 	"log"
+	"log/slog"
+	"os"
 	"random-exporters/pkg/middleware"
-	"time"
 )
 
 func main() {
 	r := gin.New()
-
-	logger, _ := zap.NewProduction()
-
-	r.Use(ginzap.Ginzap(logger, time.RFC3339, true))
-	r.Use(ginzap.RecoveryWithZap(logger, true))
-
+	//todo add setting to switch between text and json (for server)
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	r.Use(sloggin.New(logger))
+	r.Use(gin.Recovery())
 	middleware.GenerateRouter(r)
 	pprof.Register(r)
 	err := r.Run()
