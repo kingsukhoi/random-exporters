@@ -8,6 +8,9 @@ on:
     branches: [ "master" ]
 jobs:
   build:
+    concurrency: 
+      group: "build"
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     permissions:
       packages: write
