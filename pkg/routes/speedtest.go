@@ -2,6 +2,7 @@ package routes
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/showwin/speedtest-go/speedtest"
 	"net/http"
@@ -52,19 +53,20 @@ func SpeedTestHandler(c *gin.Context) {
 			_ = c.AbortWithError(http.StatusInternalServerError, err)
 			return
 		}
-
+		//slog.Info("output from speed test ul", "output", server.DLSpeed)
+		//slog.Info("output from speed test ul", "output", server.DLSpeed.Byte(speedtest.UnitTypeBinaryBytes))
 		upload := OpenMetrics.Metric{
 			Type:   OpenMetrics.Gauge,
-			Name:   "speedtest_upload_mbps",
+			Name:   "speedtest_upload_bps",
 			Labels: map[string]string{"server": s},
-			Value:  strconv.FormatFloat(server.ULSpeed, 'f', -1, 64),
+			Value:  fmt.Sprintf("%f", server.ULSpeed),
 			Help:   "Upload speed for a server",
 		}
 		download := OpenMetrics.Metric{
 			Type:   OpenMetrics.Gauge,
-			Name:   "speedtest_download_mbps",
+			Name:   "speedtest_download_bps",
 			Labels: map[string]string{"server": s},
-			Value:  strconv.FormatFloat(server.DLSpeed, 'f', -1, 64),
+			Value:  fmt.Sprintf("%f", server.DLSpeed),
 			Help:   "Download speed for a server",
 		}
 		latency := OpenMetrics.Metric{
