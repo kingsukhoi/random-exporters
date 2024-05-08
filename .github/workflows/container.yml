@@ -20,7 +20,7 @@ jobs:
           registry: https://ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Pack
         run: |
           sudo add-apt-repository ppa:cncf-buildpacks/pack-cli && \
