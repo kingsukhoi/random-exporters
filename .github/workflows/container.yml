@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     concurrency: 
-      group: "build"
+      group: "build-container"
       cancel-in-progress: true
     runs-on: ubuntu-latest
     permissions:
