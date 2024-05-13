@@ -71,8 +71,8 @@ github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55/go.mod h1:Om
 github.com/rogpeppe/go-internal v1.9.0/go.mod h1:WtVeX8xhTBvf0smdhujwtBcq4Qrzq/fJaraNFVN+nFs=
 github.com/rogpeppe/go-internal v1.10.0 h1:TMyTOH3F/DB16zRVcYyreMH6GnZZrwQVAoYjRBZyWFQ=
 github.com/rogpeppe/go-internal v1.10.0/go.mod h1:UQnix2H7Ngw/k4C5ijL5+65zddjncjaFoBhdsK/akog=
-github.com/samber/slog-gin v1.12.1 h1:cVNbmf/vEktrJkTJzyfnlDDE8MUVSzgrFpnzqqUcTLo=
-github.com/samber/slog-gin v1.12.1/go.mod h1:i6SkTHMmyiy2lBYBaVrJIktLl5lLOyW84ts1PKpC+SQ=
+github.com/samber/slog-gin v1.13.0 h1:xfELV0vyGJzx5yG0WNlL+NP/0XmNBQ7+E/7uIpw7NYA=
+github.com/samber/slog-gin v1.13.0/go.mod h1:i6SkTHMmyiy2lBYBaVrJIktLl5lLOyW84ts1PKpC+SQ=
 github.com/shirou/gopsutil/v3 v3.24.4 h1:dEHgzZXt4LMNm+oYELpzl9YCqV65Yr/6SfrvgRBtXeU=
 github.com/shirou/gopsutil/v3 v3.24.4/go.mod h1:lTd2mdiOspcqLgAnr9/nGi71NkeMpWKdmhuxm9GusH8=
 github.com/shoenig/go-m1cpu v0.1.6 h1:nxdKQNcEB6vzgA2E2bvzKIYRuNj7XNJ4S/aRSwKzFtM=
