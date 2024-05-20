@@ -9,7 +9,7 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/samber/slog-gin v1.13.0
 	github.com/shirou/gopsutil/v3 v3.24.4
-	github.com/showwin/speedtest-go v1.7.5
+	github.com/showwin/speedtest-go v1.7.7
 )
 
 require (
