@@ -39,6 +39,7 @@ jobs:
           path: ./pack-cache
           key: "${{ hashFiles('go.mod', 'go.sum') }}"
       - name: Build Container
+        id: build
         run: |
           pack build --publish ghcr.io/kingsukhoi/random-exporters:${{ github.sha }} -t ghcr.io/kingsukhoi/random-exporters:latest -t ghcr.io/kingsukhoi/random-exporters:${{ steps.shortsha.outputs.sha_short }} -B paketobuildpacks/builder-jammy-tiny \
             --env BP_GO_TARGETS="cmd/web" --env BP_GIN_MODE="release" --cache='type=build;format=bind;source=./pack-cache'
