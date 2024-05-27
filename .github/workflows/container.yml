@@ -33,7 +33,7 @@ jobs:
         id: shortsha
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Cache
-        uses: actions/cache@4
+        uses: actions/cache@v4
         with:
           path: ./pack-cache
           key: "${{ hashFiles('go.mod', 'go.sum') }}"
