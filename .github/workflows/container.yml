@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+      id-token: write
     steps:
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v3.3.0 
@@ -41,6 +42,18 @@ jobs:
         run: |
           pack build --publish ghcr.io/kingsukhoi/random-exporters:${{ github.sha }} -t ghcr.io/kingsukhoi/random-exporters:latest -t ghcr.io/kingsukhoi/random-exporters:${{ steps.shortsha.outputs.sha_short }} -B paketobuildpacks/builder-jammy-tiny \
             --env BP_GO_TARGETS="cmd/web" --env BP_GIN_MODE="release" --cache='type=build;format=bind;source=./pack-cache'
+          docker pull ghcr.io/${{github.repository}}:${{ github.sha }} > /dev/null
+          echo "image_sha=$(docker image inspect ghcr.io/${{github.repository}}:${{ github.sha }} | jq '.[0].RepoDigests[0]' | cut -d ':' -f 2 | cut -d '"' -f 1)" >> $GITHUB_OUTPUT
+      - name: test image sha
+        run: |
+          echo ${{steps.build.outputs.image_sha}}
+      - name: Attest
+        uses: actions/attest-build-provenance@v1
+        id: attest
+        with:
+          subject-name: ghcr.io/${{github.repository}}
+          subject-digest: "sha256:${{steps.build.outputs.image_sha}}"
+          push-to-registry: true
       - name: Dump github context
         run:   echo "$GITHUB_CONTEXT"
         shell: bash
