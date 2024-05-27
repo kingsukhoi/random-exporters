@@ -57,6 +57,16 @@ jobs:
           subject-name: ghcr.io/${{github.repository}}
           subject-digest: "sha256:${{steps.build.outputs.image_sha}}"
           push-to-registry: true
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: 'ghcr.io/kingsukhoi/random-exporters:${{ github.sha }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
       - name: Dump github context
         run:   echo "$GITHUB_CONTEXT"
         shell: bash
