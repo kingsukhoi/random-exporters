@@ -12,9 +12,14 @@ import (
 
 func main() {
 	r := gin.New()
-	//todo add setting to switch between text and json (for server)
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-	r.Use(sloggin.New(logger))
+
+	if gin.Mode() == gin.ReleaseMode {
+		logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+		r.Use(sloggin.New(logger))
+	} else {
+		r.Use(gin.Logger())
+	}
+
 	r.Use(gin.Recovery())
 	middleware.GenerateRouter(r)
 	pprof.Register(r)
