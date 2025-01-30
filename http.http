@@ -1,4 +1,8 @@
-#Speedtest
+### Get servers
+GET http://localhost:8080/v1/servers
+
+### Run speedtest
 GET http://localhost:8080/v1/openmetrics/speedtest?servers=4392
+
 ### processes
 GET http://localhost:8080/v1/openmetrics/processes
