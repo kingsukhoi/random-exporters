@@ -17,7 +17,7 @@ func GenerateRouter(r *gin.Engine) *gin.Engine {
 
 	v1om := v1.Group("/openmetrics")
 	v1om.GET("/speedtest", routes.SpeedTestHandler)
-	v1om.GET("/processes", routes.ProcessHandler)
+	//v1om.GET("/processes", routes.ProcessHandler)
 	v1om.GET("/weather", routes.OpenMetricsWeatherCurrent)
 
 	return r
