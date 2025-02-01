@@ -2,8 +2,6 @@ package v1
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
-	"github.com/showwin/speedtest-go/speedtest"
 	"net/http"
 	"net/http/httptest"
 	"os/exec"
@@ -11,6 +9,9 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/showwin/speedtest-go/speedtest"
 )
 
 func TestGetServerList(t *testing.T) {
@@ -37,13 +38,13 @@ func TestSpeedTest(t *testing.T) {
 	}{
 		{
 			name:         "Do Speed Test",
-			path:         "/v1/prom/speedtest?servers=4392",
+			path:         "/v1/openmetrics/speedtest?servers=4392",
 			method:       "GET",
 			expectedCode: http.StatusOK,
 		},
 		{
 			name:         "Empty server list",
-			path:         "/v1/prom/speedtest",
+			path:         "/v1/openmetrics/speedtest",
 			method:       "GET",
 			expectedCode: http.StatusBadRequest,
 		},
@@ -68,14 +69,14 @@ func TestSpeedTest(t *testing.T) {
 }
 
 func TestAgainstOfficialTool(t *testing.T) {
-	out, err := exec.Command("speedtest-go", "-s", "4392", "--json", "--force-http-ping").Output()
+	out, err := exec.Command("speedtest", "-s", "4392", "--json", "--ping-mode", "http").Output()
 	if err != nil {
 		t.Fatal(err)
 		return
 	}
 	officialResult := &OfficialSpeedTest{}
 
-	json.Unmarshal(out, officialResult)
+	_ = json.Unmarshal(out, officialResult)
 	officialDL := officialResult.Servers[0].DlSpeed
 	officialUl := officialResult.Servers[0].UlSpeed
 
@@ -83,8 +84,8 @@ func TestAgainstOfficialTool(t *testing.T) {
 	t.Logf("Download %f", officialDL)
 	t.Logf("Upload %f", officialUl)
 
-	var speedtestClient = speedtest.New()
-	server, err := speedtestClient.FetchServerByID("4392")
+	speedtestClient := speedtest.New()
+	server, _ := speedtestClient.FetchServerByID("4392")
 	err = server.TestAll()
 	if err != nil {
 		t.Fatal(err)
@@ -93,11 +94,11 @@ func TestAgainstOfficialTool(t *testing.T) {
 	t.Logf("Go Dl %f", server.DLSpeed)
 	t.Logf("Go Ul %f", server.ULSpeed)
 
-	if server.DLSpeed < officialDL*0.9 || server.DLSpeed > officialDL*1.10 {
+	if float64(server.DLSpeed) < officialDL*0.9 || float64(server.DLSpeed) > officialDL*1.10 {
 		t.Errorf("(Download) Go program got %f, official got %f. Difference is greater than 10%%", server.DLSpeed, officialDL)
 	}
 
-	if server.ULSpeed < officialUl*0.9 || server.ULSpeed > officialUl*1.10 {
+	if float64(server.ULSpeed) < officialUl*0.9 || float64(server.ULSpeed) > officialUl*1.10 {
 		t.Errorf("(Upload) Go program got %f, official got %f. Difference is greater than 10%%", server.DLSpeed, officialDL)
 	}
 }
