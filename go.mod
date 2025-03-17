@@ -1,12 +1,12 @@
 module random-exporters
 
 go 1.22.0
-toolchain go1.23.5
+toolchain go1.24.1
 
 require (
 	github.com/gin-contrib/pprof v1.5.2
 	github.com/gin-gonic/gin v1.10.0
-	github.com/samber/slog-gin v1.14.1
+	github.com/samber/slog-gin v1.15.0
 	github.com/shirou/gopsutil/v3 v3.24.5
 	github.com/showwin/speedtest-go v1.7.10
 )
