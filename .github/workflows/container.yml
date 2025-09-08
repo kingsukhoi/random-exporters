@@ -51,7 +51,7 @@ jobs:
         run: |
           echo ${{steps.build.outputs.image_sha}}
       - name: Attest
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v3
         id: attest
         with:
           subject-name: ghcr.io/${{github.repository}}
