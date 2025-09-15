@@ -7,7 +7,7 @@ toolchain go1.24.1
 require (
 	github.com/gin-contrib/pprof v1.5.3
 	github.com/gin-gonic/gin v1.10.1
-	github.com/samber/slog-gin v1.16.1
+	github.com/samber/slog-gin v1.17.2
 	github.com/shirou/gopsutil/v3 v3.24.5
 	github.com/showwin/speedtest-go v1.7.10
 )
